@@ -43,7 +43,7 @@ public class ConvertPDF extends HttpServlet{
 		try {	
 			System.out.println("logging into salesforce...");
 			sc.login();
-			attachments = query(params.get("attId"));
+			attachments = query(params.get("attIds"));
 			System.out.println("queried "+attachments.size()+" attachments");	
 		} catch (ConnectionException e1) {
 			e1.printStackTrace();

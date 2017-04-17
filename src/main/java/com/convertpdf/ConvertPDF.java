@@ -64,8 +64,8 @@ public class ConvertPDF extends HttpServlet{
 					e.printStackTrace();
 				}
 	        }
-	        String outputFile = (String)so.getField("Name")+"_converted.pdf";
-	        System.out.println("converting "+outputFile);
+	        String outputFile = "converted_"+(String)so.getField("Name");
+	        System.out.println("converting "+(String)so.getField("Name")+" to "+outputFile);
 	        String result = ocr.recognize(new File[] {theFile},
 			Ocr.RECOGNIZE_TYPE_ALL, Ocr.OUTPUT_FORMAT_PDF, "PROP_PDF_OUTPUT_FILE="+outputFile+"|PROP_PDF_OUTPUT_TEXT_VISIBLE=true");
 	        System.out.println("result: "+result);

@@ -53,6 +53,7 @@ public class ConvertPDF extends HttpServlet{
 		Ocr ocr = new Ocr(); // create a new OCR engine
 		ocr.startEngine("eng", Ocr.SPEED_FASTEST); // English
 		System.out.println("converting attachments...");
+		ArrayList<SObject> insertSObj = new ArrayList<SObject>();	
 		for(SObject so : attachments){
 			File theFile = new File((String)so.getField("Name"));				
 	        if(theFile.createNewFile()) {
@@ -71,18 +72,19 @@ public class ConvertPDF extends HttpServlet{
 	        System.out.println("result: "+result);
 	        File newFile = new File(outputFile);
 	        System.out.println("newFile: "+newFile);
+	        insertSObj.add(fileToSObj((String)so.getField("ParentId"), newFile.getName(), newFile));
 		}
 		ocr.stopEngine();
 		
-		/*
+		
 		// add attachment to report in salesforce
 		System.out.println("adding salesforce attachment...");
 		try {
-			sc.create(encryptedSObjs);
+			sc.create(insertSObj);
 		} catch (ConnectionException e) {
 			e.printStackTrace();
 		}
-		
+		/*
 		// upload files to ida ftp		
 		UploadFile uf = new UploadFile();
 		uf.start(params, encryptedFiles);

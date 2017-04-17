@@ -2,6 +2,7 @@ package main.java.com.convertpdf;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
@@ -15,10 +16,10 @@ import javax.servlet.http.HttpServletResponse;
 import main.java.com.salesforce.*;
 
 import org.apache.commons.codec.binary.Base64;
+
 import com.google.gson.Gson;
 import com.sforce.soap.partner.sobject.SObject;
 import com.sforce.ws.ConnectionException;
-
 import com.asprise.ocr.Ocr;
 
 public class ConvertPDF extends HttpServlet{
@@ -43,27 +44,33 @@ public class ConvertPDF extends HttpServlet{
 		try {	
 			System.out.println("logging into salesforce...");
 			sc.login();
-			attachments = query(params.get("attIds"));
+			attachments = query(params.get("attId"));
 			System.out.println("queried "+attachments.size()+" attachments");	
 		} catch (ConnectionException e1) {
 			e1.printStackTrace();
 		}
-		/*
-		// encrypt file
-		ArrayList<SObject> encryptedSObjs = new ArrayList<SObject>();
-		ArrayList<File> encryptedFiles = new ArrayList<File>();
-		System.out.println("encrypting attachment...");
-		for(SObject so : attachments){			
-			try {
-				EncryptFile ef = new EncryptFile();
-				File fileEncrypt = ef.encrypt(base64ToByte((String)so.getField("Body")),(String)so.getField("Name"));							
-				encryptedSObjs.add(fileToSObj((String)so.getField("ParentId"),(String)so.getField("Name")+".pgp",fileEncrypt));
-				encryptedFiles.add(fileEncrypt);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}	
+		Ocr.setUp(); // one time setup
+		Ocr ocr = new Ocr(); // create a new OCR engine
+		ocr.startEngine("eng", Ocr.SPEED_FASTEST); // English
+		System.out.println("converting attachments...");
+		for(SObject so : attachments){
+			File theFile = new File((String)so.getField("Name"));				
+	        if(theFile.createNewFile()) {
+	        	FileOutputStream fos = new FileOutputStream(theFile);
+	        	try {
+					fos.write(base64ToByte((String)so.getField("Body")));
+				} catch (Exception e) {
+					System.out.println("error reading attachment...");
+					e.printStackTrace();
+				}
+	        }
+	        String result = ocr.recognize(new File[] {theFile},
+			Ocr.RECOGNIZE_TYPE_ALL, Ocr.OUTPUT_FORMAT_PDF, "PROP_PDF_OUTPUT_FILE="+(String)so.getField("Body")+"_converted.pdf|PROP_PDF_OUTPUT_TEXT_VISIBLE=true");
+	        System.out.println("result: "+result);
 		}
+		ocr.stopEngine();
 		
+		/*
 		// add attachment to report in salesforce
 		System.out.println("adding salesforce attachment...");
 		try {
@@ -71,7 +78,7 @@ public class ConvertPDF extends HttpServlet{
 		} catch (ConnectionException e) {
 			e.printStackTrace();
 		}
-
+		
 		// upload files to ida ftp		
 		UploadFile uf = new UploadFile();
 		uf.start(params, encryptedFiles);

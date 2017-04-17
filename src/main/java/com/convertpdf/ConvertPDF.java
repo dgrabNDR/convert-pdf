@@ -46,7 +46,7 @@ public class ConvertPDF extends HttpServlet{
 		} catch (ConnectionException e1) {
 			e1.printStackTrace();
 		}
-		
+		/*
 		// encrypt file
 		ArrayList<SObject> encryptedSObjs = new ArrayList<SObject>();
 		ArrayList<File> encryptedFiles = new ArrayList<File>();
@@ -74,6 +74,7 @@ public class ConvertPDF extends HttpServlet{
 		UploadFile uf = new UploadFile();
 		uf.start(params, encryptedFiles);
 		uf.upload();
+		*/
 	}
 	
 	private SObject fileToSObj(String pId, String fileName, File theFile){

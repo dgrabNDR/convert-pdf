@@ -69,9 +69,7 @@ public class ConvertPDF extends HttpServlet{
 	        System.out.println("converting "+(String)so.getField("Name")+" to "+outputFile);
 	        String result = ocr.recognize(new File[] {theFile},
 			Ocr.RECOGNIZE_TYPE_ALL, Ocr.OUTPUT_FORMAT_PDF, "PROP_PDF_OUTPUT_FILE="+outputFile+"|PROP_PDF_OUTPUT_TEXT_VISIBLE=false");
-	        System.out.println("result: "+result);
 	        File newFile = new File(outputFile);
-	        System.out.println("newFile: "+newFile);
 	        insertSObj.add(fileToSObj((String)so.getField("ParentId"), newFile.getName(), newFile));
 		}
 		ocr.stopEngine();
@@ -84,12 +82,6 @@ public class ConvertPDF extends HttpServlet{
 		} catch (ConnectionException e) {
 			e.printStackTrace();
 		}
-		/*
-		// upload files to ida ftp		
-		UploadFile uf = new UploadFile();
-		uf.start(params, encryptedFiles);
-		uf.upload();
-		*/
 	}
 	
 	private SObject fileToSObj(String pId, String fileName, File theFile){

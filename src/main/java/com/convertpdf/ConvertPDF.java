@@ -19,6 +19,8 @@ import com.google.gson.Gson;
 import com.sforce.soap.partner.sobject.SObject;
 import com.sforce.ws.ConnectionException;
 
+import com.asprise.ocr.Ocr;
+
 public class ConvertPDF extends HttpServlet{
 	private SalesforceConnector sc;
 	Map<String,String> params = new HashMap<String,String>();

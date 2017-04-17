@@ -58,8 +58,8 @@
         </dependency>
         <dependency>
         	<groupId>com.force.api</groupId>
-			<artifactId>force-wsc</artifactId>
-			<version>33.0.3</version>
+		<artifactId>force-wsc</artifactId>
+		<version>33.0.3</version>
         </dependency>
         <dependency>
         	<groupId>com.force.api</groupId>
@@ -67,35 +67,30 @@
         	<version>33.0.3</version>
         </dependency>
         <dependency>
-        	<groupId>com.jcraft</groupId>
-        	<artifactId>jsch</artifactId>
-        	<version>0.1.50</version>
-        </dependency>
-        <dependency>
         	<groupId>commons-vfs</groupId>
         	<artifactId>commons-vfs</artifactId>
         	<version>1.0</version>
         </dependency>
         <dependency>
-			<groupId>org.bouncycastle</groupId>
-			<artifactId>bcprov-jdk15on</artifactId>
-			<version>1.50</version>
-	    	</dependency>     
-		<dependency>                    
-			<groupId>com.itextpdf.tool</groupId>
-			<artifactId>xmlworker</artifactId>
-			<version>5.5.0</version>
-		</dependency>
-		<dependency>
-			<groupId>com.itextpdf</groupId>
-			<artifactId>itextpdf</artifactId>
-			<version>5.5.0</version>
-		</dependency>
-		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-			<version>2.5</version>
-		</dependency>
+	    <groupId>com.asprise.ocr</groupId>
+	    <artifactId>java-ocr-api</artifactId>
+	    <version>[15,)</version>
+	</dependency>    
+	<dependency>                    
+		<groupId>com.itextpdf.tool</groupId>
+		<artifactId>xmlworker</artifactId>
+		<version>5.5.0</version>
+	</dependency>
+	<dependency>
+		<groupId>com.itextpdf</groupId>
+		<artifactId>itextpdf</artifactId>
+		<version>5.5.0</version>
+	</dependency>
+	<dependency>
+		<groupId>commons-io</groupId>
+		<artifactId>commons-io</artifactId>
+		<version>2.5</version>
+	</dependency>
     </dependencies>
 
     <build>
